@@ -120,7 +120,7 @@ const SITE_DATA = {
     eyebrow: "Our Mission",
     heading: "More than a robot.",
     lede:
-      "Through iterative design, testing, and competition, we aim to sharpen our engineering skills, promote STEM education, and bring some real innovation into a fun, competitive environment. As the team grows, we want to mentor new members, expand into additional weight classes, and represent our school at robotics competitions across Texas.",
+      "Through iterative design, testing, and competition, we aim to sharpen our engineering skills, promote STEM education, and bring some real innovation into a fun, competitive environment. As the team grows, we want to mentor new members, expand into additional weight classes, and represent our team at robotics competitions across Texas.",
     badges: ["STEM Education", "Mentorship", "Hands-On Engineering", "Texas Robot Combat"],
   },
 
