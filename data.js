@@ -7,15 +7,15 @@
 const SITE_DATA = {
 
   meta: {
-    title: "Wolf Combat Tech Team — Texas Robot Combat",
+    title: "Wolf Tech Combat Team — Texas Robot Combat",
     description:
-      "Wolf Combat Tech Team is a student-built engineering team designing, building, and competing with combat robots in Texas Robot Combat events.",
+      "Wolf Tech Combat Team is a student-built engineering team designing, building, and competing with combat robots in Texas Robot Combat events.",
     year: new Date().getFullYear(),
   },
 
   nav: {
-    brandName: "Wolf Combat",
-    brandSub: "Tech Team",
+    brandName: "Wolf Tech",
+    brandSub: "Combat Team",
     links: [
       { label: "About", href: "#about" },
       { label: "Divisions", href: "#divisions" },
@@ -30,13 +30,13 @@ const SITE_DATA = {
     titleLines: ["We Build", "Fighting Robots."],
     accentLineIndex: 1, // which line above gets the accent color
     subtitle:
-      "Wolf Combat Tech Team designs, machines, and pilots combat robots from a blank CAD file to the arena floor — learning real engineering by building things that hit back.",
+      "Wolf Tech Combat Team designs, machines, and pilots combat robots from a blank CAD file to the arena floor — learning real engineering by building things that hit back.",
     ctas: [
       { label: "Join the Team", href: "#join", variant: "primary" },
       { label: "See Our Robots", href: "#divisions", variant: "ghost" },
     ],
     spec: [
-      "Division 1: Plastic Antweight (150g)",
+      "Division 1: Plastic Antweight (1lb) — in development",
       "Division 2: Antweight (1lb) — in development",
     ],
   },
@@ -74,12 +74,12 @@ const SITE_DATA = {
     sub: "The robots we build, and the ones we're building toward.",
     fighters: [
       {
-        status: "Active",
+        status: "In Progress",
         statusVariant: "active",
         classLabel: "Class 01",
         name: "Plastic Antweight",
         specs: [
-          { label: "Weight Limit", value: "150 g" },
+          { label: "Weight Limit", value: "1 lb / 454 g" },
           { label: "Materials", value: "Plastic only" },
           { label: "Status", value: "Competing now" },
         ],
@@ -94,7 +94,7 @@ const SITE_DATA = {
         name: "Antweight",
         specs: [
           { label: "Weight Limit", value: "1 lb / 454 g" },
-          { label: "Materials", value: "Metal & plastic" },
+          { label: "Materials", value: "Everything Goes" },
           { label: "Status", value: "Next up" },
         ],
         desc:
@@ -129,10 +129,10 @@ const SITE_DATA = {
     heading: ["Want to build something", "that fights back?"],
     sub:
       "We're always looking for members interested in mechanical design, CAD, electronics, programming, or just turning wrenches. No experience required — just curiosity and a willingness to break things on purpose.",
-    email: "wolfcombat@yourschool.edu", // EDIT ME — real contact email
+    email: "wolftechcombat@gmail.com", // EDIT ME — real contact email
     emailLabel: "Email the Team →",
     social: { label: "Follow Our Builds", href: "#" }, // EDIT ME — real social / build-log link
-    note: "Edit me — swap in your real contact email & social link in data.js",
+    note: "wolftechcombat@gmail.com",
   },
 
   footer: {
