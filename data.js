@@ -1,145 +1,190 @@
-/* ============================================================
-   WOLF COMBAT TECH TEAM — SITE CONTENT
-   Edit this file to change anything on the page. Nothing else
-   needs to change — index.html and script.js read from here.
-   ============================================================ */
+// =============================================================================
+// data.js  —  GROUND TRUTH FOR ALL SITE CONTENT
+// =============================================================================
+// Edit this file to update any content on the site.
+// After editing, just save and reload — no HTML hunting required.
+//
+// SECTIONS:
+//   meta         → <title>, description, theme color
+//   nav          → navigation links & brand name
+//   hero         → big opening section
+//   about        → "who we are" section
+//   bots         → Bots page — add/edit robots here
+//   team         → Team Members page — add/edit members here
+//   donate       → Donate page content & HCB link
+//   mission      → mission statement panel
+//   footer       → footer text
+// =============================================================================
 
 const SITE_DATA = {
 
+  // ---------------------------------------------------------------------------
+  // META
+  // ---------------------------------------------------------------------------
   meta: {
     title: "Wolf Tech Combat Team — Texas Robot Combat",
-    description:
-      "Wolf Tech Combat Team is a student-built engineering team designing, building, and competing with combat robots in Texas Robot Combat events.",
-    year: new Date().getFullYear(),
+    description: "Student-built combat robots. Designed, machined, and fought in the arenas of Texas Robot Combat.",
+    themeColor: "#0055A4",
   },
+   // ---------------------------------------------------------------------------
+// SPONSORS  ← edit this to add/change sponsors
+// ---------------------------------------------------------------------------
+sponsors: {
+  heading: "Our Sponsors",
+  intro: "These organizations make Wolf Tech possible. Interested in sponsoring? Reach out.",
+  list: [
+    {
+      name: "Repeat Robotics",
+      logo: "sponsors/RR.png",   // ← put your .png in a sponsors/ folder
+      url: "https://repeat-robotics.com/",
+      tier: "Gold",
+    },
+   {
+      name: "Singularity FRC",
+      logo: "sponsors/Sing.png",   // ← put your .png in a sponsors/ folder
+      url: "https://www.singularity-frc.com/",
+      tier: "Gold",
+    },
 
+     
+    // Add more sponsors here ↓
+    // {
+    //   name: "Sponsor Name",
+    //   logo: "sponsors/sponsor.png",
+    //   url: "https://sponsor.com",
+    //   tier: "Silver",   // Gold | Silver | Bronze
+    // },
+  ],
+},
+
+  // ---------------------------------------------------------------------------
+  // NAV
+  // ---------------------------------------------------------------------------
   nav: {
-    brandName: "Wolf Tech",
-    brandSub: "Combat Team",
+    brand: "Wolf Tech Combat Team",
     links: [
-      { label: "About", href: "#about" },
-      { label: "Divisions", href: "#divisions" },
-      { label: "Build Process", href: "#process" },
-      { label: "Mission", href: "#mission" },
+      { label: "Home",    href: "#top"     },
+      { label: "About",   href: "#about"   },
+      { label: "Bots",    href: "#bots"    },
+      { label: "Team",    href: "#team"    },
+      { label: "Donate",  href: "#donate"  },
     ],
-    cta: { label: "Join the Team", href: "#join" },
   },
 
+  // ---------------------------------------------------------------------------
+  // HERO
+  // ---------------------------------------------------------------------------
   hero: {
-    eyebrow: "Student-Built · Texas Robot Combat",
-    titleLines: ["We Build", "Fighting Robots."],
-    accentLineIndex: 1, // which line above gets the accent color
-    subtitle:
-      "Wolf Tech Combat Team designs, machines, and pilots combat robots from a blank CAD file to the arena floor — learning real engineering by building things that hit back.",
-    ctas: [
-      { label: "Join the Team", href: "#join", variant: "primary" },
-      { label: "See Our Robots", href: "#divisions", variant: "ghost" },
-    ],
-    spec: [
-      "Division 1: Plastic Antweight (1lb) — in development",
-      "Division 2: Antweight (1lb) — in development",
+    eyebrow: "Texas Robot Combat",
+    headline: "Built to Compete. Built to Win.",
+    sub: "Wolf Tech Combat Team is a student-run robotics program designing, machining, and fighting combat robots across Texas.",
+    cta: [
+      { label: "Meet Our Bots",  href: "#bots",   style: "primary" },
+      { label: "Support Us",     href: "#donate", style: "secondary" },
     ],
   },
 
+  // ---------------------------------------------------------------------------
+  // ABOUT
+  // ---------------------------------------------------------------------------
   about: {
-    eyebrow: "About the Team",
-    heading: ["Built by students.", "Proven in the arena."],
-    lede:
-      "We're a student-built engineering team focused on designing, building, and competing with combat robots in Texas Robot Combat events. There's no simulation that teaches you torque, tolerances, and teamwork like a robot that has to survive getting hit.",
-    cards: [
-      {
-        tag: "01 / Design",
-        title: "Mechanical & CAD",
-        body:
-          "Members model every chassis, weapon, and drivetrain before a single part gets cut, learning real-world CAD and mechanical design skills along the way.",
-      },
-      {
-        tag: "02 / Systems",
-        title: "Electronics & Programming",
-        body:
-          "From receivers and ESCs to weapon motor control, members wire, program, and debug the systems that make a robot drive, fight, and survive.",
-      },
-      {
-        tag: "03 / Shop",
-        title: "Manufacturing & Teamwork",
-        body:
-          "Parts get cut, printed, and machined by hand. Every build is a team effort — design, build, and pit crew working off the same plan.",
-      },
+    heading: "Who We Are",
+    body: "Wolf Tech Combat Team is a student-built engineering program where members learn CAD, fabrication, programming, and strategy — all in the context of real competitive combat robotics. We design every component, machine every part, and drive every bot ourselves.",
+    pillars: [
+      { stat: "100%", label: "Student-designed" },
+      { stat: "In",  label: "Frisco, Texas" },
+      { stat: "⚙️",   label: "Hands-on engineering" },
     ],
   },
 
-  divisions: {
-    eyebrow: "Weight Classes",
-    heading: "Tale of the Tape",
-    sub: "The robots we build, and the ones we're building toward.",
-    fighters: [
+  // ---------------------------------------------------------------------------
+  // BOTS  ← edit this to add/change robots
+  // ---------------------------------------------------------------------------
+  bots: {
+    heading: "Our Bots",
+    intro: "Every machine is designed, fabricated, and driven by our student team. Below is our current roster.",
+    list: [
       {
-        status: "In Progress",
-        statusVariant: "active",
-        classLabel: "Class 01",
-        name: "Plastic Antweight",
-        specs: [
-          { label: "Weight Limit", value: "1 lb / 454 g" },
-          { label: "Materials", value: "Plastic only" },
-          { label: "Status", value: "Competing now" },
-        ],
-        desc:
-          "Our entry point into combat robotics — small, fast, and brutal on lessons learned. This is where new members get their first hands-on build.",
-        variant: "accent",
+        name: "FENRIR",
+        weightClass: "1lb Plastic Antweight",
+        weapon: "Drum Spinner",
+        material: "PLA+, PETG, and ASA",
+        status: "Active",
+        notes: "Our first ever bot. Debuted at Texas Robot Combat: Metal Meltdown 2026",
       },
-      {
-        status: "In Development",
-        statusVariant: "dev",
-        classLabel: "Class 02",
-        name: "Antweight",
-        specs: [
-          { label: "Weight Limit", value: "1 lb / 454 g" },
-          { label: "Materials", value: "Everything Goes" },
-          { label: "Status", value: "Next up" },
-        ],
-        desc:
-          "As the team grows, this is our next weight class — tougher builds, heavier weapons, and a step closer to the full Texas Robot Combat circuit.",
-        variant: "steel",
-      },
+      // Add more bots here ↓
+      // {
+      //   name: "Bot Name",
+      //   weightClass: "Weight class",
+      //   weapon: "Weapon type",
+      //   material: "Materials used",
+      //   status: "Active | Retired | In Build",
+      //   notes: "Any extra notes.",
+      // },
     ],
   },
 
-  process: {
-    eyebrow: "How We Build",
-    heading: "Design. Build. Test. Compete. Repeat.",
-    steps: [
-      { num: "01", title: "Design", body: "CAD the chassis, weapon, and drivetrain before anything is cut." },
-      { num: "02", title: "Build", body: "Machine, print, and wire the robot in the shop, one part at a time." },
-      { num: "03", title: "Test", body: "Drive it, break it, find out why — then fix the real problem." },
-      { num: "04", title: "Compete", body: "Bring it to the arena at Texas Robot Combat events." },
-      { num: "↻", title: "Iterate", body: "Every match teaches us what to redesign next.", loop: true },
+  // ---------------------------------------------------------------------------
+  // TEAM  ← edit this to add/change members
+  // ---------------------------------------------------------------------------
+  team: {
+    heading: "Team Members",
+    intro: "The people behind the machines.",
+    members: [
+      {
+        name: "Sahejdeep Singh",
+        role: "Team Co-Captain, Software and Electrical Lead",
+        bio: "Leads design and strategy. Handles CAD and overall robot architecture.",
+      },
+      {
+        name: "Dev Gavande",
+        role: "Team Co-Captain, CAD and Hardware Lead",
+        bio: "Runs the machine shop. Specializes in CNC and metal finishing.",
+      },
+      {
+        name: "Mohan Chillara",
+        role: "Business Lead and Electronics",
+        bio: "Handles ESCs, receivers, and drive code.",
+      },
+      // Add more members here ↓
+      // {
+      //   name: "Member Name",
+      //   role: "Role / Department",
+      //   bio: "Short bio.",
+      // },
     ],
   },
 
+  // ---------------------------------------------------------------------------
+  // DONATE
+  // ---------------------------------------------------------------------------
+  donate: {
+    heading: "Support Wolf Tech",
+    body: "We're a student team that builds everything ourselves — but materials, tools, and entry fees add up. Your donation goes directly toward robot parts, machining materials, and competition fees. We're fiscally sponsored by HCB (Hack Club Bank), so your donation is tax-deductible.",
+    hcbLink: "https://hcb.hackclub.com/donations/start/wolf-tech-combat-team",
+    cta: "Donate via HCB",
+    note: "Powered by HCB · Hack Club Bank · 501(c)(3) nonprofit",
+  },
+
+  // ---------------------------------------------------------------------------
+  // MISSION
+  // ---------------------------------------------------------------------------
   mission: {
-    eyebrow: "Our Mission",
-    heading: "More than a robot.",
-    lede:
-      "Through iterative design, testing, and competition, we aim to sharpen our engineering skills, promote STEM education, and bring some real innovation into a fun, competitive environment. As the team grows, we want to mentor new members, expand into additional weight classes, and represent our team at robotics competitions across Texas.",
-    badges: ["STEM Education", "Mentorship", "Hands-On Engineering", "Texas Robot Combat"],
+    heading: "Our Mission",
+    quote: "Give students real engineering problems — and the tools to solve them.",
+    body: "Combat robotics forces you to think in systems: structural integrity, power budgets, weapon kinetics, repair speed. We believe the arena is one of the best classrooms around.",
   },
 
-  join: {
-    eyebrow: "Join the Pit Crew",
-    heading: ["Want to build something", "that fights back?"],
-    sub:
-      "We're always looking for members interested in mechanical design, CAD, electronics, programming, or just turning wrenches. No experience required — just curiosity and a willingness to break things on purpose.",
-    email: "wolftechcombat@gmail.com", // EDIT ME — real contact email
-    emailLabel: "Email the Team →",
-    social: { label: "Follow Our Builds", href: "#" }, // EDIT ME — real social / build-log link
-    note: "wolftechcombat@gmail.com",
-  },
-
+  // ---------------------------------------------------------------------------
+  // FOOTER
+  // ---------------------------------------------------------------------------
   footer: {
-    brandName: "Wolf Combat Tech Team",
-    note: "Texas Robot Combat",
+    copy: "© 2026 Wolf Tech Combat Team · Texas Robot Combat",
+    contact: "wolftechcombat@gmail.com",   // ← replace with real email
+    social: {
+      label: "Build log",
+      href: "#",   // ← replace with Instagram/YouTube/build-log URL
+    },
   },
-};
 
-// Explicitly attach to window so script.js can read it reliably.
-window.SITE_DATA = SITE_DATA;
+};
