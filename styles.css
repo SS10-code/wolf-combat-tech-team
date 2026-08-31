@@ -25,7 +25,7 @@
   --fs-h2:       clamp(2rem, 4.5vw, 3.4rem);
   --fs-h3:       clamp(1.2rem, 2vw, 1.5rem);
   --fs-sm:       0.875rem;
-  --fs-xs:       0.72rem;
+  --fs-xs:       0.78rem;
 
   --gap:         2rem;
   --wrap:        1200px;
@@ -73,7 +73,7 @@ button{font:inherit;cursor:pointer;border:none;background:none}
 .brand__logo{width:36px;height:36px;object-fit:contain}
 .brand__name{font-family:var(--font-disp);font-size:1.1rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
 .nav__links{display:flex;gap:.05rem}
-.nav__links a{font-size:var(--fs-xs);font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-300);padding:.38rem .75rem;border-radius:var(--r);transition:color var(--t),background var(--t)}
+.nav__links a{font-size:var(--fs-xs);font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-300);padding:.38rem .75rem;border-radius:var(--r);transition:color var(--t),background var(--t)}
 .nav__links a:hover,.nav__links a.is-active{color:var(--white);background:rgba(255,255,255,.07)}
 .nav__links a.is-active{color:var(--blue-light)}
 .nav__toggle{display:none;flex-direction:column;gap:5px;padding:8px}
@@ -138,8 +138,12 @@ button{font:inherit;cursor:pointer;border:none;background:none}
 }
 .hero__headline em{
   display:block;font-style:normal;
-  color:transparent;
+  /* solid fill first (renders everywhere) with a stroke + glow layered on
+     top for style — outline-only text was unreadable on browsers without
+     -webkit-text-stroke support and washed out over the hero background */
+  color:var(--blue-light);
   -webkit-text-stroke:2px var(--blue-light);
+  text-shadow:0 0 28px rgba(58,158,255,.35);
 }
 
 .hero__sub{font-size:1.05rem;color:var(--gray-300);max-width:46ch;line-height:1.75;margin-bottom:2.5rem}
@@ -191,39 +195,25 @@ button{font:inherit;cursor:pointer;border:none;background:none}
 }
 @keyframes pulse-ring{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.2);opacity:0}}
 
-/* Weapon image cards orbiting */
-.weapon-orbit{
-  position:absolute;
-  width:480px;height:480px;
-  animation:ring-spin 22s linear infinite;
+/* Centerpiece: a single spinning circular saw blade (SVG, no stock photos) */
+.saw{
+  position:relative;
+  width:260px;height:260px;
+  display:flex;align-items:center;justify-content:center;
+  filter:drop-shadow(0 12px 40px rgba(0,0,0,.6));
 }
-.weapon-img{
-  position:absolute;
-  width:160px;
-  border-radius:var(--r);
-  overflow:hidden;
-  background:var(--gray-900);
-  border:1px solid rgba(58,158,255,.2);
-  box-shadow:0 8px 32px rgba(0,0,0,.6),0 0 0 1px rgba(58,158,255,.1);
-  /* counter-rotate so photos stay upright */
-  animation:counter-spin 22s linear infinite;
+.saw__svg{width:100%;height:100%;overflow:visible}
+.saw__spin{
+  transform-origin:100px 100px;
+  animation:ring-spin 1.4s linear infinite;
 }
-@keyframes counter-spin{to{transform:rotate(-360deg)}}
-.weapon-img img{width:100%;height:110px;object-fit:cover;filter:grayscale(30%) contrast(1.1)}
-.weapon-img__label{
-  padding:.4rem .6rem;
-  font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+.saw__label{
+  position:absolute;bottom:-2.25rem;left:50%;transform:translateX(-50%);
+  padding:.4rem .8rem;white-space:nowrap;
+  font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
   color:var(--blue-light);background:rgba(8,10,14,.8);
+  border:1px solid rgba(58,158,255,.2);border-radius:var(--r);
 }
-/* Position the three weapon images around the circle */
-.weapon-img--drum{  top:0;   left:50%; transform-origin:left center; transform:translateY(-50%) translateX(-50%)}
-.weapon-img--saw{   bottom:15%; right:0; transform:translateY(50%)}
-.weapon-img--hammer{bottom:15%; left:0;  transform:translateY(50%)}
-
-/* Override: positions are set via top/left on the orbit div, counter-rotation handles the rest */
-.weapon-img--drum  { top:-80px;     left:50%;   margin-left:-80px }
-.weapon-img--saw   { top:50%;       right:-80px; margin-top:60px  }
-.weapon-img--hammer{ top:50%;       left:-80px;  margin-top:60px  }
 
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;min-height:auto}
@@ -252,7 +242,7 @@ button{font:inherit;cursor:pointer;border:none;background:none}
   background:var(--blue);
 }
 .stat-item__num{font-family:var(--font-disp);font-size:1.9rem;font-weight:800;color:var(--white);line-height:1;letter-spacing:.02em}
-.stat-item__lbl{font-size:var(--fs-xs);font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.65)}
+.stat-item__lbl{font-size:var(--fs-xs);font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.78)}
 @media(max-width:600px){.stats-bar__inner{grid-template-columns:repeat(2,1fr)}}
 
 /* ── SECTIONS ─────────────────────────────────────────────────────────────────  */
@@ -274,7 +264,7 @@ button{font:inherit;cursor:pointer;border:none;background:none}
 /* eyebrow */
 .section-label{
   display:inline-flex;align-items:center;gap:.5rem;
-  font-size:var(--fs-xs);font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  font-size:var(--fs-xs);font-weight:700;letter-spacing:.09em;text-transform:uppercase;
   color:var(--blue-light);margin-bottom:.6rem;
 }
 .section-label::before{content:'';display:block;width:16px;height:2px;background:var(--blue-mid)}
@@ -427,12 +417,26 @@ button{font:inherit;cursor:pointer;border:none;background:none}
 .sponsor-card img{width:120px;height:70px;object-fit:contain;filter:grayscale(20%)}
 .sponsor-card__name{font-family:var(--font-disp);font-size:1rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--white)}
 .sponsor-card__tier{
-  font-size:.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  font-size:.65rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
   padding:.2rem .65rem;border-radius:2px;
 }
-.tier--gold  {background:rgba(148,163,184,.1);color:var(--gray-100);border:1px solid rgba(148,163,184,.2)}
-.tier--silver{background:rgba(148,163,184,.07);color:var(--gray-300);border:1px solid rgba(148,163,184,.15)}
-.tier--bronze{background:rgba(100,116,139,.07);color:var(--gray-500);border:1px solid rgba(100,116,139,.15)}
+/* Actual metal tones per tier, not a uniform gray */
+.tier--gold{
+  background:linear-gradient(135deg,#FFF6D8 0%,#FFD700 45%,#B8860B 100%);
+  color:#3A2C00;border:1px solid #B8860B;text-shadow:0 1px 0 rgba(255,255,255,.35);
+}
+.tier--silver{
+  background:linear-gradient(135deg,#FFFFFF 0%,#C7CDD6 45%,#8A94A3 100%);
+  color:#22262E;border:1px solid #8A94A3;text-shadow:0 1px 0 rgba(255,255,255,.35);
+}
+.tier--bronze{
+  background:linear-gradient(135deg,#F0C089 0%,#CD7F32 45%,#8C5A28 100%);
+  color:#33200D;border:1px solid #8C5A28;text-shadow:0 1px 0 rgba(255,255,255,.25);
+}
+.tier--platinum{
+  background:linear-gradient(135deg,#FFFFFF 0%,#E5E9F0 40%,#B9C2D0 70%,#8FA0B8 100%);
+  color:#141820;border:1px solid #B9C2D0;text-shadow:0 1px 0 rgba(255,255,255,.4);
+}
 
 /* ── DONATE ─────────────────────────────────────────────────────────────────── */
 .donate-layout{
