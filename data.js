@@ -68,6 +68,7 @@ sponsors: {
       { label: "Bots",    href: "#bots"    },
       { label: "Team",    href: "#team"    },
       { label: "Donate",  href: "#donate"  },
+      { label: "Sponsors", href: "#sponsors" },
     ],
   },
 
