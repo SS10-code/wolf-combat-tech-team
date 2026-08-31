@@ -285,7 +285,7 @@ function buildSponsors() {
     buildBots();
     buildTeam();
     buildDonate();
-    buildSponsers();
+    buildSponsors();
     buildMission();
     buildFooter();
     initProgress();
