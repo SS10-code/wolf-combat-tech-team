@@ -234,6 +234,21 @@ button { font: inherit; cursor: pointer; border: none; background: none; }
     );
   pointer-events: none;
 }
+/* Wolf + axe watermark motif — bottom-right of hero */
+.hero::after {
+  content: '';
+  position: absolute;
+  right: -40px;
+  bottom: -40px;
+  width: min(520px, 70vw);
+  aspect-ratio: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='rgba(0%2C85%2C164%2C0.13)' stroke-width='1.2'%3E%3C!-- Wolf head silhouette --%3E%3Cpath d='M100 30 C75 30 55 45 50 65 C45 75 44 82 46 90 C42 88 38 88 36 92 C40 94 43 96 46 97 C47 105 52 113 60 118 C68 123 78 125 88 124 C90 130 92 138 90 145 L110 145 C108 138 110 130 112 124 C122 125 132 123 140 118 C148 113 153 105 154 97 C157 96 160 94 164 92 C162 88 158 88 154 90 C156 82 155 75 150 65 C145 45 125 30 100 30 Z'/%3E%3C!-- Ears --%3E%3Cpath d='M75 32 L65 15 L82 28'/%3E%3Cpath d='M125 32 L135 15 L118 28'/%3E%3C!-- Eyes --%3E%3Cellipse cx='82' cy='78' rx='7' ry='6'/%3E%3Cellipse cx='118' cy='78' rx='7' ry='6'/%3E%3Ccircle cx='82' cy='78' r='3'/%3E%3Ccircle cx='118' cy='78' r='3'/%3E%3C!-- Snout --%3E%3Cellipse cx='100' cy='100' rx='16' ry='12'/%3E%3Ccircle cx='93' cy='96' r='3'/%3E%3Ccircle cx='107' cy='96' r='3'/%3E%3Cpath d='M88 104 C94 110 106 110 112 104'/%3E%3C!-- Neck/chest --%3E%3Cpath d='M88 124 L85 145 M112 124 L115 145'/%3E%3C!-- Battle axe — right side --%3E%3Cline x1='148' y1='55' x2='175' y2='28' stroke-width='2'/%3E%3C!-- handle --%3E%3Cpath d='M168 22 C172 18 178 18 180 22 C182 28 180 34 175 38 L165 30 Z'/%3E%3C!-- upper blade --%3E%3Cpath d='M175 38 C180 42 182 48 178 52 L165 42 Z'/%3E%3C!-- lower blade --%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+  z-index: 0;
+}
+
 .hero__inner {
   position: relative;
   z-index: 1;
