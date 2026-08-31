@@ -161,10 +161,10 @@ sponsors: {
   // ---------------------------------------------------------------------------
   donate: {
     heading: "Support Wolf Tech",
-    body: "We're a student team that builds everything ourselves — but materials, tools, and entry fees add up. Your donation goes directly toward robot parts, machining materials, and competition fees. We're fiscally sponsored by HCB (Hack Club Bank), so your donation is tax-deductible.",
+    body: "We're a student team that builds everything ourselves — but materials, tools, and entry fees add up. Your donation goes directly toward robot parts, machining materials, and competition fees. We're fiscally sponsored by HCB, so your donation is tax-deductible.",
     hcbLink: "https://hcb.hackclub.com/donations/start/wolf-tech-combat-team",
     cta: "Donate via HCB",
-    note: "Powered by HCB · Hack Club Bank · 501(c)(3) nonprofit",
+    note: "Powered by HCB  · Fiscal sponsor",
   },
 
   // ---------------------------------------------------------------------------
