@@ -88,8 +88,8 @@
     // Right: specs table
     const specsCol = el("div", { class: "about-specs reveal reveal--right reveal--delay-1" });
     const specs = [
-      ["Founded", "2026"],
-      ["Location", "Frisco, Texas"],
+      ["Founded", "2024"],
+      ["Location", "Frisco, TX"],
       ["Weight Class", "1 lb Antweight"],
       ["Design", "100% Student-built"],
       ["Competition", "Texas Robot Combat"],
