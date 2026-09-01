@@ -202,7 +202,21 @@
 
     const box = el("div", { class: "donate-box reveal reveal--right reveal--delay-1" });
     box.appendChild(el("div", { class: "donate-box__heading" }, "Make a difference"));
-    box.appendChild(el("p", { class: "donate-box__body" }, "Every dollar goes directly toward robot parts, machining materials, and competition fees. Fiscally sponsored by HCB — 501(c)(3) tax-deductible."));
+    box.appendChild(el("p", { class: "donate-box__body" }, "Every dollar goes directly toward robot parts, machining materials, and competition fees. Wolf Tech Combat Team is fiscally sponsored by HCB — donations are 501(c)(3) tax-deductible."));
+    // HCB badge — link to our org page per HCB branding guidelines
+    const hcbBadge = el("a", {
+      href: "https://hcb.hackclub.com/wolf-tech-combat-team",
+      class: "hcb-badge", target: "_blank", rel: "noopener noreferrer",
+      "aria-label": "Fiscally sponsored by HCB"
+    });
+    const hcbImg = el("img", {
+      src: "https://hcb.hackclub.com/badge.svg",
+      alt: "Fiscally Sponsored by HCB",
+      height: "44",
+      width: "auto"
+    });
+    hcbBadge.appendChild(hcbImg);
+    box.appendChild(hcbBadge);
     box.appendChild(el("a", {
       href: d.hcbLink, class: "btn btn--donate",
       target: "_blank", rel: "noopener noreferrer"
