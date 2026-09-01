@@ -1,56 +1,85 @@
-/* =============================================================================
-   script.js — Reads SITE_DATA from data.js and builds the entire page DOM.
-   ============================================================================= */
+/* Wolf Tech Combat Team · script.js */
 (function () {
   "use strict";
   const D = SITE_DATA;
 
-  /* ── helpers ─────────────────────────────────────────────────────────────── */
-  function el(tag, attrs, ...children) {
-    attrs = attrs || {};
-    const node = document.createElement(tag);
-    for (const [k, v] of Object.entries(attrs)) {
-      if (k === "class") node.className = v;
-      else if (k === "html") node.innerHTML = v;
-      else node.setAttribute(k, v);
-    }
-    children.flat().forEach(c => {
-      if (typeof c === "string") node.appendChild(document.createTextNode(c));
-      else if (c) node.appendChild(c);
-    });
-    return node;
+  /* ── helpers ──────────────────────────────────────────────────────────────── */
+  function el(tag, cls, html) {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (html !== undefined) n.innerHTML = html;
+    return n;
+  }
+  function a(href, cls, html, attrs) {
+    const n = el("a", cls, html);
+    n.href = href;
+    if (attrs) for (const [k,v] of Object.entries(attrs)) n.setAttribute(k,v);
+    return n;
+  }
+  function append(parent, ...kids) { kids.flat().forEach(k => k && parent.appendChild(k)); return parent; }
+  function initials(name) { return (name||"").split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase(); }
+  function statusBadge(s) {
+    const map = { active:"badge--active", retired:"badge--retired", "in build":"badge--build" };
+    return `<span class="badge ${map[(s||"").toLowerCase()]||"badge--active"}">${s}</span>`;
+  }
+  function sawSVG(small) {
+    const r = small ? 0.6 : 1;
+    const cx = 200, cy = 200;
+    const teeth = Array.from({length:36},(_,i)=>`<polygon points="200,10 191,36 209,36" transform="rotate(${i*10},200,200)" opacity="0.9"/>`).join("");
+    return `<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="bG2"><stop offset="0%" stop-color="#1877D2" stop-opacity=".18"/><stop offset="100%" stop-color="#0055A4" stop-opacity=".04"/></radialGradient>
+        <radialGradient id="cG2"><stop offset="0%" stop-color="#5BB0FF"/><stop offset="100%" stop-color="#0055A4"/></radialGradient>
+        <filter id="g2"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <circle cx="200" cy="200" r="190" fill="url(#bG2)"/>
+      <g filter="url(#g2)" stroke="#1877D2" stroke-width="1.4" fill="#090C14">${teeth}</g>
+      <circle cx="200" cy="200" r="162" fill="#070A10" stroke="#1877D2" stroke-width="1.5"/>
+      <circle cx="200" cy="200" r="148" fill="none" stroke="rgba(58,158,255,.18)" stroke-width="1"/>
+      <circle cx="200" cy="200" r="78"  fill="none" stroke="rgba(58,158,255,.22)" stroke-width="1.2"/>
+      <circle cx="200" cy="200" r="46"  fill="#090C14" stroke="rgba(58,158,255,.3)" stroke-width="1.4"/>
+      <g stroke="rgba(58,158,255,.25)" stroke-width="1.5" fill="none">
+        <line x1="200" y1="50" x2="200" y2="350"/>
+        <line x1="200" y1="50" x2="200" y2="350" transform="rotate(60,200,200)"/>
+        <line x1="200" y1="50" x2="200" y2="350" transform="rotate(120,200,200)"/>
+      </g>
+      <g stroke="rgba(58,158,255,.55)" stroke-width="4" stroke-linecap="round" fill="none" filter="url(#g2)">
+        <line x1="200" y1="78" x2="200" y2="152"/>
+        <line x1="200" y1="248" x2="200" y2="322"/>
+        <line x1="200" y1="78" x2="200" y2="152" transform="rotate(60,200,200)"/>
+        <line x1="200" y1="248" x2="200" y2="322" transform="rotate(60,200,200)"/>
+        <line x1="200" y1="78" x2="200" y2="152" transform="rotate(120,200,200)"/>
+        <line x1="200" y1="248" x2="200" y2="322" transform="rotate(120,200,200)"/>
+      </g>
+      <circle cx="200" cy="200" r="18" fill="#080A0E" stroke="#3A9EFF" stroke-width="2" filter="url(#g2)"/>
+      <circle cx="200" cy="200" r="9"  fill="url(#cG2)"/>
+      <g stroke="rgba(58,158,255,.7)" stroke-width="3" stroke-linecap="round" filter="url(#g2)">
+        <line x1="200" y1="36" x2="200" y2="18"/>
+        <line x1="200" y1="36" x2="200" y2="18" transform="rotate(72,200,200)"/>
+        <line x1="200" y1="36" x2="200" y2="18" transform="rotate(144,200,200)"/>
+        <line x1="200" y1="36" x2="200" y2="18" transform="rotate(216,200,200)"/>
+        <line x1="200" y1="36" x2="200" y2="18" transform="rotate(288,200,200)"/>
+      </g>
+    </svg>`;
   }
 
-  function statusClass(s) {
-    const m = { active: "status--active", retired: "status--retired", "in build": "status--in-build" };
-    return m[(s || "").toLowerCase()] || "status--active";
-  }
-
-  function initials(name) {
-    return (name || "?").split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
-  }
-
-  /* ── NAV ─────────────────────────────────────────────────────────────────── */
+  /* ── NAV ──────────────────────────────────────────────────────────────────── */
   function buildNav() {
-    document.getElementById("brandName").textContent = D.nav.brand;
-    const linksEl = document.getElementById("navLinks");
-    const mobileEl = document.getElementById("navMobile");
-    D.nav.links.forEach(link => {
-      linksEl.appendChild(el("a", { href: link.href }, link.label));
-      mobileEl.appendChild(el("a", { href: link.href }, link.label));
+    const links = document.getElementById("navLinks");
+    const mob   = document.getElementById("navMobile");
+    D.nav.links.forEach(l => {
+      links.appendChild(a(l.href, null, l.label));
+      mob.appendChild(a(l.href, null, l.label));
     });
     const toggle = document.getElementById("navToggle");
     toggle.addEventListener("click", () => {
       const open = toggle.getAttribute("aria-expanded") === "true";
       toggle.setAttribute("aria-expanded", String(!open));
-      mobileEl.classList.toggle("is-open", !open);
+      mob.classList.toggle("is-open", !open);
     });
-    mobileEl.querySelectorAll("a").forEach(a => {
-      a.addEventListener("click", () => {
-        toggle.setAttribute("aria-expanded", "false");
-        mobileEl.classList.remove("is-open");
-      });
-    });
+    mob.querySelectorAll("a").forEach(lnk => lnk.addEventListener("click", () => {
+      toggle.setAttribute("aria-expanded","false"); mob.classList.remove("is-open");
+    }));
   }
 
   /* ── HERO ─────────────────────────────────────────────────────────────────── */
@@ -58,265 +87,192 @@
     const h = D.hero;
     const words = h.headline.split(" ");
     const mid = Math.ceil(words.length / 2);
-    const line1 = words.slice(0, mid).join(" ");
-    const line2 = words.slice(mid).join(" ");
-
-    const text = document.getElementById("heroContent");
-    text.appendChild(el("p", { class: "hero__eyebrow reveal" }, h.eyebrow));
-    text.appendChild(el("h1", {
-      class: "hero__headline reveal reveal--delay-1",
-      html: `${line1}<em>${line2}</em>`
-    }));
-    text.appendChild(el("p", { class: "hero__sub reveal reveal--delay-2" }, h.sub));
-    const ctas = el("div", { class: "hero__ctas reveal reveal--delay-3" },
-      ...h.cta.map(c => el("a", { href: c.href, class: `btn btn--${c.style}` }, c.label))
-    );
-    text.appendChild(ctas);
+    const wrap = document.getElementById("heroContent");
+    wrap.innerHTML = `
+      <p class="hero__eyebrow rv">${h.eyebrow}</p>
+      <h1 class="hero__headline rv rv-d1">${words.slice(0,mid).join(" ")}<em>${words.slice(mid).join(" ")}</em></h1>
+      <p class="hero__sub rv rv-d2">${h.sub}</p>
+      <div class="hero__ctas rv rv-d3">
+        ${h.cta.map(c=>`<a href="${c.href}" class="btn btn--${c.style==="primary"?"p":"s"}">${c.label}</a>`).join("")}
+      </div>`;
   }
 
-  /* ── ABOUT ───────────────────────────────────────────────────────────────── */
+  /* ── ABOUT ────────────────────────────────────────────────────────────────── */
   function buildAbout() {
-    const a = D.about;
-    const wrap = document.getElementById("aboutContent");
-
-    // Left: text
-    const textCol = el("div", { class: "about-text" });
-    textCol.appendChild(el("p", { class: "section-label reveal" }, "About us"));
-    textCol.appendChild(el("h2", { class: "section-heading reveal reveal--delay-1" }, a.heading));
-    textCol.appendChild(el("p", { class: "about-body reveal reveal--delay-2" }, a.body));
-
-    // Right: specs table
-    const specsCol = el("div", { class: "about-specs reveal reveal--right reveal--delay-1" });
+    const ab = D.about;
     const specs = [
-      ["Founded", "2024"],
-      ["Location", "Frisco, TX"],
-      ["Weight Class", "1 lb Antweight"],
-      ["Design", "100% Student-built"],
-      ["Competition", "Texas Robot Combat"],
+      ["Founded",     "2024"],
+      ["Location",    "Frisco, TX"],
+      ["Schools",     "3+ Frisco high schools"],
+      ["Weight class","1lb Antweight"],
+      ["Design",      "100% student-built"],
     ];
-    specs.forEach(([key, val]) => {
-      specsCol.appendChild(
-        el("div", { class: "about-spec-row" },
-          el("div", { class: "about-spec-key" }, key),
-          el("div", { class: "about-spec-val" }, val)
-        )
-      );
-    });
-
-    wrap.appendChild(textCol);
-    wrap.appendChild(specsCol);
+    document.getElementById("aboutContent").innerHTML = `
+      <div class="about-grid">
+        <div class="rv rv-l">
+          <p class="lbl">About us</p>
+          <h2 class="sh">${ab.heading}</h2>
+          <p class="about-body">${ab.body}</p>
+        </div>
+        <div class="spec-table rv rv-r rv-d1">
+          ${specs.map(([k,v])=>`<div class="spec-row"><div class="spec-k">${k}</div><div class="spec-v">${v}</div></div>`).join("")}
+        </div>
+      </div>`;
   }
 
   /* ── BOTS ─────────────────────────────────────────────────────────────────── */
   function buildBots() {
     const b = D.bots;
     const wrap = document.getElementById("botsContent");
-    wrap.appendChild(el("p", { class: "section-label reveal" }, "Robots"));
-    wrap.appendChild(el("h2", { class: "section-heading reveal reveal--delay-1" }, b.heading));
-    wrap.appendChild(el("p", { class: "section-intro reveal reveal--delay-2" }, b.intro));
+    let html = `<p class="lbl rv">The machines</p><h2 class="sh rv rv-d1">${b.heading}</h2>`;
 
-    const grid = el("div", { class: "bots-grid" });
-    b.list.forEach((bot, i) => {
-      const delay = (i % 3) + 1;
-      grid.appendChild(
-        el("div", { class: `bot-card reveal reveal--delay-${delay}` },
-          el("div", { class: "bot-card__name" }, bot.name),
-          el("div", { class: "bot-card__class" }, bot.weightClass),
-          el("span", { class: `bot-card__status ${statusClass(bot.status)}` }, bot.status),
-          el("div", { class: "bot-card__specs" },
-            el("div", { class: "spec-row" },
-              el("span", { class: "spec-key" }, "Weapon"),
-              el("span", { class: "spec-val" }, bot.weapon)
-            ),
-            el("div", { class: "spec-row" },
-              el("span", { class: "spec-key" }, "Material"),
-              el("span", { class: "spec-val" }, bot.material)
-            )
-          ),
-          el("p", { class: "bot-card__notes" }, bot.notes)
-        )
-      );
-    });
-    wrap.appendChild(grid);
+    const [featured, ...rest] = b.list;
+    if (featured) {
+      const specRows = [
+        ["Weapon",   featured.weapon],
+        ["Material", featured.material],
+        ["Class",    featured.weightClass],
+      ].map(([k,v])=>`<div class="bot-spec-row"><span class="bot-spec-k">${k}</span><span class="bot-spec-v">${v}</span></div>`).join("");
+
+      html += `<div class="bot-featured rv">
+        <div class="bot-featured__visual">
+          <div class="bot-featured__svg">${sawSVG()}</div>
+          ${statusBadge(featured.status).replace("badge","badge bot-featured__badge")}
+        </div>
+        <div class="bot-featured__info">
+          <div class="bot-featured__name">${featured.name}</div>
+          <div class="bot-featured__class">${featured.weightClass}</div>
+          <div class="bot-featured__specs">${specRows}</div>
+          <p class="bot-featured__notes">${featured.notes}</p>
+        </div>
+      </div>`;
+    }
+
+    if (rest.length) {
+      html += `<div class="bots-grid">` +
+        rest.map((bot,i)=>`
+          <div class="bot-card rv rv-d${(i%3)+1}">
+            <div class="bot-card__name">${bot.name}</div>
+            <div class="bot-card__class">${bot.weightClass}</div>
+            ${statusBadge(bot.status)}
+            <p class="bot-card__notes">${bot.notes}</p>
+          </div>`).join("") +
+        `</div>`;
+    }
+
+    wrap.innerHTML = html;
   }
 
   /* ── TEAM ─────────────────────────────────────────────────────────────────── */
   function buildTeam() {
     const t = D.team;
     const wrap = document.getElementById("teamContent");
-    wrap.appendChild(el("p", { class: "section-label reveal" }, "The crew"));
-    wrap.appendChild(el("h2", { class: "section-heading reveal reveal--delay-1" }, t.heading));
-    wrap.appendChild(el("p", { class: "section-intro reveal reveal--delay-2" }, t.intro));
 
-    const grid = el("div", { class: "team-grid" });
-    t.members.forEach((m, i) => {
-      const delay = (i % 3) + 1;
-      grid.appendChild(
-        el("div", { class: `member-card reveal reveal--delay-${delay}` },
-          el("div", { class: "member-card__avatar" }, initials(m.name)),
-          el("div", { class: "member-card__name" }, m.name),
-          el("div", { class: "member-card__role" }, m.role),
-          el("p", { class: "member-card__bio" }, m.bio)
-        )
-      );
-    });
-    wrap.appendChild(grid);
+    function cardHTML(m, lead) {
+      return `<div class="member-card${lead?" member-card--lead":""} rv rv-d${lead?1:2}">
+        <div class="member-card__avatar">${initials(m.name)}</div>
+        <div class="member-card__name">${m.name}</div>
+        <div class="member-card__role">${m.role}</div>
+        <p class="member-card__bio">${m.bio}</p>
+      </div>`;
+    }
+
+    // Co-captains (first two members that have "captain" in role, otherwise first two)
+    const leads = t.members.filter(m => m.role.toLowerCase().includes("captain")).slice(0,2);
+    const rest  = t.members.filter(m => !leads.includes(m));
+
+    wrap.innerHTML = `
+      <p class="lbl rv">The crew</p>
+      <h2 class="sh rv rv-d1">${t.heading}</h2>
+      <p class="si rv rv-d2">${t.intro}</p>
+      ${leads.length ? `<div class="team-leads">${leads.map(m=>cardHTML(m,true)).join("")}</div>` : ""}
+      <div class="team-rest">${rest.map(m=>cardHTML(m,false)).join("")}</div>`;
   }
 
   /* ── SPONSORS ─────────────────────────────────────────────────────────────── */
   function buildSponsors() {
     const s = D.sponsors;
     const wrap = document.getElementById("sponsorsContent");
-    wrap.appendChild(el("p", { class: "section-label reveal" }, "Partners"));
-    wrap.appendChild(el("h2", { class: "section-heading reveal reveal--delay-1" }, s.heading));
-    wrap.appendChild(el("p", { class: "section-intro reveal reveal--delay-2" }, s.intro));
-
-    const grid = el("div", { class: "sponsors-grid" });
-    s.list.forEach((sp, i) => {
-      const delay = (i % 3) + 1;
-      grid.appendChild(
-        el("a", {
-          href: sp.url, target: "_blank", rel: "noopener noreferrer",
-          class: `sponsor-card reveal reveal--delay-${delay}`
-        },
-          el("img", { src: sp.logo, alt: sp.name }),
-          el("span", { class: "sponsor-card__name" }, sp.name),
-          el("span", { class: `sponsor-card__tier tier--${(sp.tier || "gold").toLowerCase()}` }, sp.tier)
-        )
-      );
-    });
-    wrap.appendChild(grid);
+    const cards = s.list.map((sp,i) => `
+      <a href="${sp.url}" target="_blank" rel="noopener noreferrer"
+         class="sponsor-card rv rv-d${(i%3)+1}">
+        <img src="${sp.logo}" alt="${sp.name}" />
+        <span class="sponsor-card__name">${sp.name}</span>
+        <span class="sponsor-card__tier tier--${(sp.tier||"gold").toLowerCase()}">${sp.tier}</span>
+      </a>`).join("");
+    wrap.innerHTML = `
+      <p class="lbl rv">Partners</p>
+      <h2 class="sh rv rv-d1">${s.heading}</h2>
+      <p class="si rv rv-d2">${s.intro}</p>
+      <div class="sponsors-grid">${cards}</div>`;
   }
 
   /* ── DONATE ───────────────────────────────────────────────────────────────── */
   function buildDonate() {
     const d = D.donate;
-    const wrap = document.getElementById("donateContent");
-    const layout = el("div", { class: "donate-layout" });
-
-    const textCol = el("div", { class: "donate-text" });
-    textCol.appendChild(el("p", { class: "section-label reveal" }, "Support us"));
-    textCol.appendChild(el("h2", { class: "section-heading reveal reveal--delay-1" }, d.heading));
-    textCol.appendChild(el("p", { class: "donate-body reveal reveal--delay-2" }, d.body));
-    textCol.appendChild(el("p", { class: "donate-note reveal reveal--delay-3" }, d.note));
-
-    const box = el("div", { class: "donate-box reveal reveal--right reveal--delay-1" });
-    box.appendChild(el("div", { class: "donate-box__heading" }, "Make a difference"));
-    box.appendChild(el("p", { class: "donate-box__body" }, "Every dollar goes directly toward robot parts, machining materials, and competition fees. Wolf Tech Combat Team is fiscally sponsored by HCB — donations are 501(c)(3) tax-deductible."));
-    // HCB badge — link to our org page per HCB branding guidelines
-    const hcbBadge = el("a", {
-      href: "https://hcb.hackclub.com/wolf-tech-combat-team",
-      class: "hcb-badge", target: "_blank", rel: "noopener noreferrer",
-      "aria-label": "Fiscally sponsored by HCB"
-    });
-    const hcbImg = el("img", {
-      src: "https://hcb.hackclub.com/badge.svg",
-      alt: "Fiscally Sponsored by HCB",
-      height: "44",
-      width: "auto"
-    });
-    hcbBadge.appendChild(hcbImg);
-    box.appendChild(hcbBadge);
-    box.appendChild(el("a", {
-      href: d.hcbLink, class: "btn btn--donate",
-      target: "_blank", rel: "noopener noreferrer"
-    }, d.cta));
-
-    layout.appendChild(textCol);
-    layout.appendChild(box);
-    wrap.appendChild(layout);
-  }
-
-  /* ── MISSION ──────────────────────────────────────────────────────────────── */
-  function buildMission() {
-    const m = D.mission;
-    const wrap = document.getElementById("missionContent");
-    const layout = el("div", { class: "mission-layout" });
-
-    const quoteCol = el("div", { class: "mission-quote-block reveal reveal--left" });
-    quoteCol.appendChild(el("p", { class: "section-label" }, "Why we build"));
-    quoteCol.appendChild(el("blockquote", { class: "mission-quote" }, m.quote));
-    quoteCol.appendChild(el("p", { class: "mission-body" }, m.body));
-
-    const valuesCol = el("div", { class: "mission-values reveal reveal--right reveal--delay-1" });
-    const values = [
-      { icon: "⚙️", title: "Real Engineering", desc: "Every component designed and fabricated by students." },
-      { icon: "🧠", title: "Systems Thinking", desc: "Structural integrity, power budgets, weapon kinetics — all at once." },
-      { icon: "🏆", title: "Arena-Tested", desc: "We compete at Texas Robot Combat events and iterate on what breaks." },
-    ];
-    values.forEach(v => {
-      valuesCol.appendChild(
-        el("div", { class: "mission-value" },
-          el("div", { class: "mission-value__icon" }, v.icon),
-          el("div", { class: "mission-value__content" },
-            el("div", { class: "mission-value__title" }, v.title),
-            el("div", { class: "mission-value__desc" }, v.desc)
-          )
-        )
-      );
-    });
-
-    layout.appendChild(quoteCol);
-    layout.appendChild(valuesCol);
-    wrap.appendChild(layout);
+    document.getElementById("donateContent").innerHTML = `
+      <div class="donate-grid">
+        <div class="donate-text rv rv-l">
+          <p class="lbl">Support Wolf Tech</p>
+          <h2 class="sh">${d.heading}</h2>
+          <p class="donate-body">${d.body}</p>
+          <p class="donate-note">${d.note}</p>
+        </div>
+        <div class="donate-box rv rv-r rv-d1">
+          <div class="donate-box__head">Make a Difference</div>
+          <p class="donate-box__body">Every dollar goes directly toward robot parts, machining materials, and competition fees. Wolf Tech is fiscally sponsored by HCB — your donation is 501(c)(3) tax-deductible.</p>
+          <a href="https://hcb.hackclub.com/wolf-tech-combat-team" target="_blank" rel="noopener noreferrer"
+             class="hcb-badge" aria-label="Fiscally sponsored by HCB">
+            <img src="https://hcb.hackclub.com/badge.svg" alt="Fiscally Sponsored by HCB" height="44" />
+          </a>
+          <a href="${d.hcbLink}" class="btn btn--w" target="_blank" rel="noopener noreferrer">${d.cta}</a>
+        </div>
+      </div>`;
   }
 
   /* ── FOOTER ───────────────────────────────────────────────────────────────── */
   function buildFooter() {
     const f = D.footer;
-    const wrap = document.getElementById("footerContent");
-    wrap.appendChild(
-      el("div", { class: "footer__brand" },
-        el("img", { src: "logo.png", alt: "" }),
-        el("span", { class: "footer__brand-name" }, D.nav.brand)
-      )
-    );
-    wrap.appendChild(
-      el("div", { class: "footer__meta" },
-        el("span", { class: "footer__copy" }, f.copy),
-        el("span", { class: "footer__link" }, el("a", { href: `mailto:${f.contact}` }, f.contact)),
-        el("span", { class: "footer__link" }, el("a", { href: f.social.href, target: "_blank", rel: "noopener noreferrer" }, f.social.label))
-      )
-    );
+    document.getElementById("footerContent").innerHTML = `
+      <div class="footer__brand">
+        <img src="logo.png" alt="" />
+        <span class="footer__brand-name">Wolf Tech Combat Team</span>
+      </div>
+      <div class="footer__right">
+        <span class="footer__copy">© 2024 Wolf Tech Combat Team · Frisco, TX</span>
+        <span class="footer__link"><a href="mailto:${f.contact}">${f.contact}</a></span>
+        <span class="footer__link"><a href="${f.social.href}" target="_blank" rel="noopener noreferrer">${f.social.label}</a></span>
+      </div>`;
   }
 
-  /* ── SCROLL PROGRESS ─────────────────────────────────────────────────────── */
+  /* ── SCROLL PROGRESS ──────────────────────────────────────────────────────── */
   function initProgress() {
     const fill = document.getElementById("progressFill");
     window.addEventListener("scroll", () => {
-      const scrolled = document.documentElement.scrollTop;
-      const total = document.documentElement.scrollHeight - window.innerHeight;
-      fill.style.width = (total > 0 ? (scrolled / total) * 100 : 0) + "%";
+      const t = document.documentElement.scrollHeight - window.innerHeight;
+      fill.style.width = (t > 0 ? (window.scrollY / t) * 100 : 0) + "%";
     }, { passive: true });
   }
 
   /* ── SCROLL SPY ───────────────────────────────────────────────────────────── */
   function initScrollSpy() {
     const navLinks = document.querySelectorAll(".nav__links a");
-    const sections = D.nav.links
-      .map(l => document.getElementById(l.href.replace("#", "")))
-      .filter(Boolean);
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          navLinks.forEach(a => {
-            a.classList.toggle("is-active", a.getAttribute("href") === "#" + entry.target.id);
-          });
-        }
-      });
-    }, { rootMargin: "-40% 0px -55% 0px" });
-    sections.forEach(s => obs.observe(s));
-  }
-
-  /* ── REVEAL ON SCROLL ─────────────────────────────────────────────────────── */
-  function initReveal() {
-    const els = document.querySelectorAll(".reveal, .reveal--left, .reveal--right");
+    const ids = D.nav.links.map(l => l.href.replace("#",""));
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add("is-visible"); obs.unobserve(e.target); }
+        if (e.isIntersecting)
+          navLinks.forEach(a => a.classList.toggle("is-active", a.getAttribute("href") === "#" + e.target.id));
       });
-    }, { threshold: 0.1 });
-    els.forEach(e => obs.observe(e));
+    }, { rootMargin: "-40% 0px -55% 0px" });
+    ids.forEach(id => { const s = document.getElementById(id); if(s) obs.observe(s); });
+  }
+
+  /* ── REVEAL ───────────────────────────────────────────────────────────────── */
+  function initReveal() {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add("on"); obs.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll(".rv,.rv-l,.rv-r").forEach(el => obs.observe(el));
   }
 
   /* ── INIT ─────────────────────────────────────────────────────────────────── */
@@ -328,16 +284,13 @@
     buildTeam();
     buildSponsors();
     buildDonate();
-    buildMission();
     buildFooter();
     initProgress();
     initScrollSpy();
     requestAnimationFrame(() => requestAnimationFrame(initReveal));
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+  document.readyState === "loading"
+    ? document.addEventListener("DOMContentLoaded", init)
+    : init();
 })();
