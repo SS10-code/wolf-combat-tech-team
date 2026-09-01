@@ -22,7 +22,7 @@ const SITE_DATA = {
   // META
   // ---------------------------------------------------------------------------
   meta: {
-    title: "Wolf Tech Combat Team — Texas Robot Combat",
+    title: "Wolf Tech Combat Team — Robot Combat",
     description: "Student-built combat robots. Designed, machined, and fought in the arenas of Texas Robot Combat.",
     themeColor: "#0055A4",
   },
@@ -134,19 +134,40 @@ sponsors: {
     members: [
       {
         name: "Sahejdeep Singh",
-        role: "Team Co-Captain, Software and Electrical Lead",
-        bio: "Leads design and strategy. Handles CAD and overall robot architecture.",
+        role: "Team Co-Captain, Software, and Electrical Lead",
+        bio: "Leads elctric systems and software. Handles most autonomous and electrical functions.",
       },
       {
         name: "Dev Gavande",
-        role: "Team Co-Captain, CAD and Hardware Lead",
-        bio: "Runs the machine shop. Specializes in CNC and metal finishing.",
+        role: "Team Co-Captain, CAD, and Hardware Lead",
+        bio: "Leads design and strategy. Handles CAD and overall robot architecture.",
       },
       {
         name: "Mohan Chillara",
         role: "Business Lead and Electronics",
-        bio: "Handles ESCs, receivers, and drive code.",
+        bio: "Handles buisness and electronics.",
       },
+      {
+        name: "Shreyas Konyala",
+        role: "CAD, Hardware, and Electronics",
+        bio: "Handles design, hardware and electronics.",
+      },
+      {
+        name: "Jivansh Pandya",
+        role: "CAD, and Hardware",
+        bio: "Handles design, and hardware.",
+      },
+      {
+        name: "Alexander Kolev",
+        role: "Hardware and Strategy",
+        bio: "Handles assembly and strategy.",
+      },
+      {
+        name: "Jacob Esparza",
+        role: "Hardware and Strategy",
+        bio: "Handles assembly and strategy.",
+      },
+      
       // Add more members here ↓
       // {
       //   name: "Member Name",
