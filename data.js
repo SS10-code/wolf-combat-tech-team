@@ -23,7 +23,7 @@ const SITE_DATA = {
   // ---------------------------------------------------------------------------
   meta: {
     title: "Wolf Tech Combat Team — Robot Combat",
-    description: "Student-built combat robots. Designed, machined, and fought in the arenas of Texas Robot Combat.",
+    description: "Wolf Tech is a student-run combat robotics team from Frisco, TX. We design, machine, and fight our own robots.",
     themeColor: "#0055A4",
   },
    // ---------------------------------------------------------------------------
@@ -76,9 +76,9 @@ sponsors: {
   // HERO
   // ---------------------------------------------------------------------------
   hero: {
-    eyebrow: "Texas Robot Combat",
+    eyebrow: "Combat Robotics · Frisco, TX",
     headline: "Built to Compete. Built to Win.",
-    sub: "Wolf Tech Combat Team is a student-run robotics program designing, machining, and fighting combat robots across Texas.",
+    sub: "We're a student-run team from Frisco, TX — designing, machining, and fighting our own combat robots from the ground up.",
     cta: [
       { label: "Meet Our Bots",  href: "#bots",   style: "primary" },
       { label: "Support Us",     href: "#donate", style: "secondary" },
@@ -201,7 +201,7 @@ sponsors: {
   // FOOTER
   // ---------------------------------------------------------------------------
   footer: {
-    copy: "© 2026 Wolf Tech Combat Team · Texas Robot Combat",
+    copy: "© 2024 Wolf Tech Combat Team · Frisco, TX",
     contact: "wolftechcombat@gmail.com",   // ← replace with real email
     social: {
       label: "Build log",
