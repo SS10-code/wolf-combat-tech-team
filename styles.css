@@ -13,6 +13,7 @@
   --off-white:   #F0F4FA;
   --gray-100:    #DCE3EE;
   --gray-300:    #9BA8BC;
+  --gray-400:    #7A8698;
   --gray-500:    #5A6478;
   --gray-700:    #2C3344;
   --gray-900:    #141820;
@@ -37,7 +38,7 @@
 /* ── RESET ──────────────────────────────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{font-family:var(--font-body);font-size:1rem;line-height:1.6;color:var(--gray-100);background:var(--black);overflow-x:hidden}
+body{font-family:var(--font-body);font-size:1.05rem;line-height:1.7;color:var(--gray-100);background:var(--black);overflow-x:hidden}
 img{display:block;max-width:100%;height:auto}
 a{color:inherit;text-decoration:none}
 ul{list-style:none}
@@ -73,7 +74,7 @@ button{font:inherit;cursor:pointer;border:none;background:none}
 .brand__logo{width:36px;height:36px;object-fit:contain}
 .brand__name{font-family:var(--font-disp);font-size:1.1rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
 .nav__links{display:flex;gap:.05rem}
-.nav__links a{font-size:var(--fs-xs);font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-300);padding:.38rem .75rem;border-radius:var(--r);transition:color var(--t),background var(--t)}
+.nav__links a{font-size:var(--fs-xs);font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-100);padding:.38rem .75rem;border-radius:var(--r);transition:color var(--t),background var(--t)}
 .nav__links a:hover,.nav__links a.is-active{color:var(--white);background:rgba(255,255,255,.07)}
 .nav__links a.is-active{color:var(--blue-light)}
 .nav__toggle{display:none;flex-direction:column;gap:5px;padding:8px}
@@ -192,38 +193,7 @@ button{font:inherit;cursor:pointer;border:none;background:none}
 @keyframes pulse-ring{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.2);opacity:0}}
 
 /* Weapon image cards orbiting */
-.weapon-orbit{
-  position:absolute;
-  width:480px;height:480px;
-  animation:ring-spin 22s linear infinite;
-}
-.weapon-img{
-  position:absolute;
-  width:160px;
-  border-radius:var(--r);
-  overflow:hidden;
-  background:var(--gray-900);
-  border:1px solid rgba(58,158,255,.2);
-  box-shadow:0 8px 32px rgba(0,0,0,.6),0 0 0 1px rgba(58,158,255,.1);
-  /* counter-rotate so photos stay upright */
-  animation:counter-spin 22s linear infinite;
-}
-@keyframes counter-spin{to{transform:rotate(-360deg)}}
-.weapon-img img{width:100%;height:110px;object-fit:cover;filter:grayscale(30%) contrast(1.1)}
-.weapon-img__label{
-  padding:.4rem .6rem;
-  font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--blue-light);background:rgba(8,10,14,.8);
-}
-/* Position the three weapon images around the circle */
-.weapon-img--drum{  top:0;   left:50%; transform-origin:left center; transform:translateY(-50%) translateX(-50%)}
-.weapon-img--saw{   bottom:15%; right:0; transform:translateY(50%)}
-.weapon-img--hammer{bottom:15%; left:0;  transform:translateY(50%)}
-
-/* Override: positions are set via top/left on the orbit div, counter-rotation handles the rest */
-.weapon-img--drum  { top:-80px;     left:50%;   margin-left:-80px }
-.weapon-img--saw   { top:50%;       right:-80px; margin-top:60px  }
-.weapon-img--hammer{ top:50%;       left:-80px;  margin-top:60px  }
+/* weapon-orbit removed — replaced by single spinning saw */
 
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;min-height:auto}
@@ -251,7 +221,7 @@ button{font:inherit;cursor:pointer;border:none;background:none}
   padding:.75rem 1rem;
   background:var(--blue);
 }
-.stat-item__num{font-family:var(--font-disp);font-size:1.9rem;font-weight:800;color:var(--white);line-height:1;letter-spacing:.02em}
+.stat-item__num{font-family:var(--font-disp);font-size:1.25rem;font-weight:800;color:var(--white);line-height:1.15;letter-spacing:.02em}
 .stat-item__lbl{font-size:var(--fs-xs);font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.65)}
 @media(max-width:600px){.stats-bar__inner{grid-template-columns:repeat(2,1fr)}}
 
@@ -294,9 +264,9 @@ button{font:inherit;cursor:pointer;border:none;background:none}
 .section:not(.section--dark):not(.section--blue) .section-label{color:var(--blue)}
 .section:not(.section--dark):not(.section--blue) .section-label::before{background:var(--blue)}
 
-.section-intro{font-size:1.05rem;line-height:1.75;max-width:56ch;color:var(--gray-300);margin-bottom:3rem}
-.section--dark .section-intro{color:var(--gray-300)}
-.section:not(.section--dark):not(.section--blue) .section-intro{color:var(--gray-500)}
+.section-intro{font-size:1.05rem;line-height:1.75;max-width:56ch;color:var(--gray-100);margin-bottom:3rem}
+.section--dark .section-intro{color:var(--gray-100)}
+.section:not(.section--dark):not(.section--blue) .section-intro{color:var(--gray-700)}
 
 /* ── ABOUT ──────────────────────────────────────────────────────────────────── */
 .about-layout{
@@ -306,7 +276,7 @@ button{font:inherit;cursor:pointer;border:none;background:none}
   align-items:center;
 }
 .about-text .section-heading{color:var(--gray-900)}
-.about-body{font-size:1.05rem;line-height:1.85;color:var(--gray-500);margin-bottom:2.5rem;max-width:56ch}
+.about-body{font-size:1.05rem;line-height:1.85;color:var(--gray-700);margin-bottom:2.5rem;max-width:56ch}
 
 /* Specs panel on right */
 .about-specs{
@@ -323,7 +293,7 @@ button{font:inherit;cursor:pointer;border:none;background:none}
 .about-spec-key,.about-spec-val{padding:1rem 1.25rem}
 .about-spec-key{
   font-size:var(--fs-xs);font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--gray-500);background:var(--off-white);
+  color:var(--gray-700);background:var(--off-white);
   border-right:1px solid var(--gray-100);
   display:flex;align-items:center;
 }
@@ -376,9 +346,9 @@ button{font:inherit;cursor:pointer;border:none;background:none}
 
 .bot-card__specs{display:flex;flex-direction:column;gap:.5rem;padding:1rem 0;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);margin-block:.25rem}
 .spec-row{display:flex;gap:.75rem;font-size:var(--fs-sm)}
-.spec-key{font-weight:700;color:var(--gray-500);min-width:70px}
+.spec-key{font-weight:700;color:var(--gray-400);min-width:70px}
 .spec-val{color:var(--gray-100)}
-.bot-card__notes{font-size:var(--fs-sm);color:var(--gray-500);line-height:1.65}
+.bot-card__notes{font-size:var(--fs-sm);color:var(--gray-300);line-height:1.65}
 
 /* ── TEAM ──────────────────────────────────────────────────────────────────── */
 .team-grid{
@@ -430,9 +400,9 @@ button{font:inherit;cursor:pointer;border:none;background:none}
   font-size:.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
   padding:.2rem .65rem;border-radius:2px;
 }
-.tier--gold  {background:rgba(148,163,184,.1);color:var(--gray-100);border:1px solid rgba(148,163,184,.2)}
-.tier--silver{background:rgba(148,163,184,.07);color:var(--gray-300);border:1px solid rgba(148,163,184,.15)}
-.tier--bronze{background:rgba(100,116,139,.07);color:var(--gray-500);border:1px solid rgba(100,116,139,.15)}
+.tier--gold  {background:rgba(212,175,55,.13);color:#F0C040;border:1px solid rgba(212,175,55,.35);text-shadow:0 0 8px rgba(212,175,55,.4)}
+.tier--silver{background:rgba(192,192,192,.1);color:#C8D0DC;border:1px solid rgba(192,192,192,.3)}
+.tier--bronze{background:rgba(140,100,60,.1);color:#CD7F32;border:1px solid rgba(140,100,60,.3)}
 
 /* ── DONATE ─────────────────────────────────────────────────────────────────── */
 .donate-layout{
@@ -466,7 +436,7 @@ button{font:inherit;cursor:pointer;border:none;background:none}
   line-height:1.15;text-transform:uppercase;
   margin-bottom:1.5rem;
 }
-.mission-body{font-size:1.05rem;line-height:1.8;color:var(--gray-500)}
+.mission-body{font-size:1.05rem;line-height:1.8;color:var(--gray-700)}
 .mission-values{display:flex;flex-direction:column;gap:1px;background:var(--gray-100);border:1px solid var(--gray-100);border-radius:var(--r);overflow:hidden}
 .mission-value{
   display:flex;gap:1rem;align-items:flex-start;
@@ -515,7 +485,7 @@ button{font:inherit;cursor:pointer;border:none;background:none}
 .footer__brand img{width:30px;height:30px;object-fit:contain;opacity:.8}
 .footer__brand-name{font-family:var(--font-disp);font-size:1rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--white)}
 .footer__meta{display:flex;flex-direction:column;gap:.35rem;text-align:right}
-.footer__copy{font-size:var(--fs-sm);color:var(--gray-500)}
+.footer__copy{font-size:var(--fs-sm);color:var(--gray-300)}
 .footer__link{font-size:var(--fs-sm)}
 .footer__link a{color:var(--blue-light);transition:color var(--t)}
 .footer__link a:hover{color:var(--white)}
@@ -531,3 +501,47 @@ button{font:inherit;cursor:pointer;border:none;background:none}
 .reveal--left.is-visible{opacity:1;transform:none}
 .reveal--right{opacity:0;transform:translateX(24px);transition:opacity .6s ease,transform .6s ease}
 .reveal--right.is-visible{opacity:1;transform:none}
+
+/* ── SPINNING SAW ─────────────────────────────────────────────────────────── */
+.saw-wrap{
+  position:relative;
+  display:flex;flex-direction:column;align-items:center;gap:1rem;
+  z-index:2;
+}
+.saw-blade{
+  width:min(360px,55vw);height:min(360px,55vw);
+  animation:blade-spin 1.8s linear infinite;
+  filter:drop-shadow(0 0 18px rgba(58,158,255,.35)) drop-shadow(0 0 6px rgba(58,158,255,.2));
+}
+@keyframes blade-spin{to{transform:rotate(360deg)}}
+.saw-blur-ring{
+  position:absolute;
+  top:50%;left:50%;
+  width:min(380px,58vw);height:min(380px,58vw);
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  border:3px solid transparent;
+  background:
+    radial-gradient(ellipse at 50% 50%,transparent 44%,rgba(58,158,255,.08) 50%,transparent 56%)
+    border-box;
+  animation:blur-ring-spin 1.8s linear infinite;
+  pointer-events:none;
+}
+@keyframes blur-ring-spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.saw-label{
+  font-size:var(--fs-xs);font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--blue-light);opacity:.7;
+  margin-top:-.5rem;
+}
+
+/* ── HCB BADGE ───────────────────────────────────────────────────────────── */
+.hcb-badge{
+  display:inline-block;
+  /* HCB branding: minimum 16px margin on all sides around the logo (half of 44px height ≈ 22px) */
+  margin:0.5rem 0;
+  line-height:0;
+  border-radius:var(--r);
+  transition:opacity var(--t),transform var(--t);
+}
+.hcb-badge:hover{opacity:.85;transform:translateY(-1px)}
+.hcb-badge img{height:44px;width:auto;display:block;max-width:none}
